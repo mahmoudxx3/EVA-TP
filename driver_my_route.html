@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Route & Passengers - Eva Transport</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7f6;
+            color: #333;
+            direction: ltr; /* Left-to-Right for English */
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        header {
+            background-color: #009c22;
+            color: white;
+            padding: 15px 20px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 1.8em;
+        }
+
+        nav {
+            background-color: #e9ecef;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            text-align: center;
+        }
+
+        nav ul li {
+            display: inline-block;
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #009c22;
+            font-weight: bold;
+        }
+
+        nav ul li a:hover {
+            color: #009c22;
+        }
+
+        h2, h3 {
+            color: #009c22;
+            border-bottom: 2px solid #e9ecef;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+         h3 {
+            margin-top: 20px;
+            font-size: 1.4em;
+         }
+
+        .card {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .card p {
+            margin-bottom: 10px;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: #28a745; 
+            color: white;
+            padding: 8px 12px; /* Smaller buttons */
+            text-decoration: none;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9em;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+        }
+        .btn-info {
+            background-color: #17a2b8;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        .map-placeholder {
+            width: 100%;
+            height: 500px;
+            margin-top: 15px;
+            margin-bottom: 20px;
+        }
+
+        .worker-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .worker-list-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 10px;
+            border-bottom: 1px solid #eee;
+            background-color: #fff;
+            border-radius: 4px;
+            margin-bottom: 8px;
+        }
+
+        .worker-list-item:last-child {
+            border-bottom: none;
+        }
+
+        .worker-info {
+            flex-grow: 1;
+        }
+
+        .worker-info p {
+            margin: 2px 0;
+            font-size: 0.95em;
+        }
+
+        .worker-actions .btn {
+            font-size: 0.8em;
+            padding: 5px 8px;
+            margin-left: 5px; /* Space between buttons in LTR */
+        }
+
+        .worker-actions .btn:first-child {
+            margin-left: 0;
+        }
+
+        .pickup-point-header {
+            background-color: #e9ecef;
+            padding: 8px;
+            margin-top: 15px;
+            margin-bottom: 5px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        #total-passengers {
+            font-weight: bold;
+            color: #009c22;
+        }
+
+        .status-waiting, .status-pickedup { font-style: italic; }
+        .status-pickedup { color: green; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Eva Factory Transport - Drivers</h1>
+    </header>
+
+    <div class="container">
+        <nav>
+            <ul>
+                <li><a href="driver_dashboard.html">Dashboard</a></li>
+                <li><a href="driver_my_route.html">My Route & Passengers</a></li>
+                <li><a href="driver_profile.html">My Profile</a></li>
+                <li><a href="login.html">Logout</a></li>
+            </ul>
+        </nav>
+
+        <h2>My Route & Passengers for: Line 10 - Nasr City</h2>
+
+        <div class="form-group">
+            <label for="trip-date-select">Select Trip Date:</label>
+            <select id="trip-date-select" onchange="loadTripData(this.value)">
+                <option value="today">Today (June 23, 2025 - default)</option>
+                <option value="tomorrow">Tomorrow (June 24, 2025 - default)</option>
+                <option value="2025-06-25">June 25, 2025</option>
+            </select>
+        </div>
+        
+        <div id="trip-details">
+            <h3>Trip Details for <span id="selected-trip-date">Today</span></h3>
+            <p><strong>Scheduled Departure Time:</strong> <span id="scheduled-time">7:00 AM</span></p>
+            <p><strong>Total Registered Passengers:</strong> <span id="total-passengers">12</span></p>
+
+            <div class="map-placeholder">
+              <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151.835434509198!2d144.9537353153164!3d-37.81627997975157!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad642af0f0f0f0f%3A0x0!2sGoogle%20Maps!5e0!3m2!1sen!2sau!4v1616161616161!5m2!1sen!2sau" 
+                width="100%" 
+                height="500" 
+                style="border:0;" 
+                allowfullscreen="" 
+                loading="lazy">
+              </iframe>
+            </div>
+
+            <h3>Passenger List & Pickup Points:</h3>
+            <div id="passenger-list-container">
+                <!-- Passenger groups will be injected here by JS -->
+            </div>
+        </div>
+         <div id="no-trip-data" class="alert alert-info" style="display:none;">
+            No trip data available for the selected date or no trips scheduled for you on this day.
+        </div>
+    </div>
+
+    <script>
+        const tripDataStore = {
+            "today": {
+                dateText: "Today (June 23, 2025 - default)",
+                time: "7:00 AM",
+                totalPassengers: 12,
+                passengersByStop: {
+                    "Pickup Point 1: In front of Awlad Ragab Supermarket, Makram Ebeid St.": [
+                        { id: "worker-1", name: "Yassin Mohamed", empId: "E12345", phone: "01001234567" },
+                        { id: "worker-2", name: "Kyrilos Ayman", empId: "E12346", phone: "01007654321" },
+                        { id: "worker-x1", name: "Mahmoud Moustafa", empId: "E12390", phone: "01001112222" },
+                        { id: "worker-x2", name: "Monir Hussin", empId: "E12391", phone: "01003334444" },
+                        { id: "worker-x3", name: "Mina Sameh", empId: "E12392", phone: "01005556666" },
+                    ],
+                    "Pickup Point 2: Abbas El Akkad St. with Mostafa El Nahas St. Intersection": [
+                        { id: "worker-3", name: "Omar Mohamed", empId: "E12347", phone: "01112345678" },
+                        { id: "worker-x4", name: "Mouna Shalaby", empId: "E12393", phone: "01117778888" },
+                        { id: "worker-x5", name: "Ahmed El Sakka", empId: "E12394", phone: "01119990000" },
+                        { id: "worker-x6", name: "Mohamed Ramadan", empId: "E12395", phone: "01112223333" },
+                    ],
+                    "Pickup Point 3: Beginning of Tayaran St.": [
+                         { id: "worker-4", name: "Mariam Hussein Mohamed", empId: "E12348", phone: "01223456789" },
+                         { id: "worker-x7", name: "Tamer Hosny", empId: "E12396", phone: "01224445555" },
+                         { id: "worker-x8", name: "Dina Fouad", empId: "E12397", phone: "01226667777" },
+                    ]
+                }
+            },
+            "tomorrow": {
+                dateText: "Tomorrow (June 24, 2025 - default)",
+                time: "7:00 AM",
+                totalPassengers: 3, 
+                passengersByStop: {
+                    "Pickup Point 1: In front of Awlad Ragab Supermarket, Makram Ebeid St.": [
+                        { id: "worker-t1", name: "Ahmed Mahmoud Ali", empId: "E12345", phone: "01001234567" },
+                        { id: "worker-t2", name: "Fatma Elsayed Ibrahim", empId: "E12346", phone: "01007654321" },
+                    ],
+                    "Pickup Point 3: Beginning of Tayaran St.": [
+                         { id: "worker-t4", name: "Mariam Hussein Mohamed", empId: "E12348", phone: "01223456789" },
+                    ]
+                }
+            },
+             "2025-06-25": { 
+                dateText: "June 25, 2025",
+                time: "N/A",
+                totalPassengers: 0,
+                passengersByStop: {}
+            }
+        };
+
+        function loadTripData(selectedDateKey) {
+            const tripData = tripDataStore[selectedDateKey];
+            const tripDetailsDiv = document.getElementById('trip-details');
+            const noTripDataDiv = document.getElementById('no-trip-data');
+            const passengerListContainer = document.getElementById('passenger-list-container');
+
+            passengerListContainer.innerHTML = ''; // Clear previous list
+
+            if (tripData && tripData.totalPassengers > 0) {
+                tripDetailsDiv.style.display = 'block';
+                noTripDataDiv.style.display = 'none';
+
+                document.getElementById('selected-trip-date').textContent = tripData.dateText;
+                document.getElementById('scheduled-time').textContent = tripData.time;
+                document.getElementById('total-passengers').textContent = tripData.totalPassengers;
+                
+                for (const stopName in tripData.passengersByStop) {
+                    const passengersAtStop = tripData.passengersByStop[stopName];
+                    if (passengersAtStop.length > 0) { // Should always be true if stopName exists with data
+                        const groupDiv = document.createElement('div');
+                        groupDiv.className = 'pickup-point-group';
+
+                        const headerDiv = document.createElement('div');
+                        headerDiv.className = 'pickup-point-header';
+                        headerDiv.textContent = `${stopName} (${passengersAtStop.length} passengers)`;
+                        groupDiv.appendChild(headerDiv);
+
+                        const ul = document.createElement('ul');
+                        ul.className = 'worker-list';
+
+                        passengersAtStop.forEach(worker => {
+                            const li = document.createElement('li');
+                            li.className = 'worker-list-item';
+                            li.id = worker.id; // Ensure unique IDs if dates change
+                            li.innerHTML = `
+                                <div class="worker-info">
+                                    <p><strong>${worker.name}</strong> (${worker.empId})</p>
+                                    <p>Phone: <a href="tel:${worker.phone}">${worker.phone}</a></p>
+                                    <p>Status: <span class="status-waiting">Waiting</span></p>
+                                </div>
+                                <div class="worker-actions">
+                                    <button class="btn btn-info" onclick="callWorker('${worker.phone}')">Call</button>
+                                    <button class="btn" onclick="markAsPickedUp('${worker.id}')">Picked Up</button>
+                                </div>`;
+                            ul.appendChild(li);
+                        });
+                        groupDiv.appendChild(ul);
+                        passengerListContainer.appendChild(groupDiv);
+                    }
+                }
+
+            } else {
+                 tripDetailsDiv.style.display = 'none';
+                 noTripDataDiv.style.display = 'block';
+                 if(tripData) { 
+                    noTripDataDiv.textContent = `No passengers registered for the trip on ${tripData.dateText}.`;
+                 } else {
+                    noTripDataDiv.textContent = `No trip data available for the selected date or no trips scheduled for you on this day.`;
+                 }
+            }
+        }
+
+        function callWorker(phoneNumber) {
+            alert(`Calling worker at: ${phoneNumber}`);
+            // window.location.href = `tel:${phoneNumber}`;
+        }
+
+        function markAsPickedUp(workerListItemId) {
+            const workerItem = document.getElementById(workerListItemId);
+            if (workerItem) {
+                const statusSpan = workerItem.querySelector('.worker-info p:last-child span');
+                statusSpan.textContent = "Picked Up";
+                statusSpan.className = "status-pickedup";
+
+                const pickupButton = workerItem.querySelector('.worker-actions button:last-child');
+                pickupButton.textContent = "Done";
+                pickupButton.disabled = true;
+                pickupButton.classList.add('btn-secondary');
+                pickupButton.classList.remove('btn-success'); // Assuming it was green
+            }
+        }
+        
+        const urlParams = new URLSearchParams(window.location.search);
+        const tripParam = urlParams.get('trip');
+        if (tripParam === 'current') { 
+            document.getElementById('trip-date-select').value = 'today';
+        }
+
+        loadTripData(document.getElementById('trip-date-select').value);
+
+    </script>
+</body>
+</html>

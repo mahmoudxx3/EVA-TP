@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Reports - Admin - Eva Transport</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Define the new primary color */
+        :root {
+            --primary-color: #dc3545; /* Red */
+            --primary-color-dark: #c82333; /* Darker red for hover */
+            --alert-info-color: #0c5460; /* Keep alert-info text color */
+            --alert-info-bg: #d1ecf1; /* Keep alert-info background */
+            --alert-info-border: #bee5eb; /* Keep alert-info border */
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7f6;
+            color: #333;
+            direction: ltr;
+        }
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        header {
+            background-color: var(--primary-color); /* Changed to red */
+            color: white;
+            padding: 15px 20px;
+            text-align: center;
+            margin-bottom: 20px;
+            border-radius: 8px 8px 0 0;
+        }
+        header h1 { margin: 0; font-size: 2em; }
+        nav {
+            background-color: #e9ecef;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        nav ul { list-style-type: none; padding: 0; margin: 0; text-align: center; }
+        nav ul li { display: inline-block; margin: 0 15px; }
+        nav ul li a { 
+            text-decoration: none; 
+            color: var(--primary-color); /* Changed to red */
+            font-weight: bold; 
+            padding: 5px 0; 
+            transition: color 0.3s ease; 
+        }
+        nav ul li a:hover { color: var(--primary-color-dark); } /* Darker red on hover */
+        h2 { 
+            color: var(--primary-color); /* Changed to red */
+            border-bottom: 2px solid #e9ecef; 
+            padding-bottom: 10px; 
+            margin-top: 0; 
+        }
+        .btn {
+            display: inline-block;
+            background-color: var(--primary-color); /* Changed to red */
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s ease;
+            margin-right: 5px;
+        }
+        .btn:hover { background-color: var(--primary-color-dark); } /* Darker red on hover */
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-group select,
+        .form-group input[type="date"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .filter-bar {
+            display: flex;
+            gap: 20px;
+            align-items: flex-end;
+            margin-bottom: 20px;
+            flex-wrap: wrap; /* Allow wrapping on smaller screens */
+        }
+        .filter-bar .form-group {
+            flex: 1;
+            min-width: 200px; /* Minimum width for each filter group */
+            margin-bottom: 0; /* Remove default margin-bottom */
+        }
+        .report-content {
+            margin-top: 30px;
+            border: 1px solid #eee;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            min-height: 300px;
+        }
+        .report-content h3 {
+            color: var(--primary-color); /* Changed to red */
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        table th {
+            background-color: #e9ecef;
+            font-weight: bold;
+            color: #555;
+        }
+        table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        table tr:hover {
+            background-color: #e0e0e0;
+        }
+        .no-data-message {
+            text-align: center;
+            color: #888;
+            padding: 50px;
+            font-style: italic;
+        }
+        /* Keeping alert-info colors as they are, as they are not part of the main theme color */
+        .alert-info {
+            color: var(--alert-info-color);
+            background-color: var(--alert-info-bg);
+            border-color: var(--alert-info-border);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Admin Dashboard</h1>
+    </header>
+
+    <div class="container">
+        <nav>
+            <ul>
+                <li><a href="admin_dashboard.html"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="admin_manage_users.html"><i class="fas fa-users"></i> Manage Users</a></li>
+                <li><a href="admin_manage_routes.html"><i class="fas fa-route"></i> Manage Routes</a></li>
+                <li><a href="admin_send_notifications.html"><i class="fas fa-bell"></i> Send Notifications</a></li>
+                <li><a href="admin_view_reports.html"><i class="fas fa-chart-bar"></i> View Reports</a></li>
+                <!-- Removed Logout Button -->
+            </ul>
+        </nav>
+
+        <h2>View Issue Reports</h2>
+
+        <div class="filter-bar">
+            <div class="form-group">
+                <label for="userTypeFilter">Reported By:</label>
+                <select id="userTypeFilter" onchange="loadReport()">
+                    <option value="all">All Issues</option>
+                    <option value="drivers">Driver Issues</option>
+                    <option value="workers">Worker Issues</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="reportDate">Date:</label>
+                <input type="date" id="reportDate" value="2024-07-28" onchange="loadReport()">
+            </div>
+            <button class="btn" onclick="loadReport()"><i class="fas fa-sync-alt"></i> Refresh Report</button>
+        </div>
+
+        <div class="report-content">
+            <h3 id="reportTitle">All Issue Reports for 2024-07-28</h3>
+            <div id="reportTableContainer">
+                <!-- Report data will be loaded here -->
+            </div>
+            <div id="noReportData" class="no-data-message" style="display:none;">
+                No data available for the selected criteria.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const userTypeFilterSelect = document.getElementById('userTypeFilter'); // Changed ID
+        const reportDateInput = document.getElementById('reportDate');
+        const reportTitleElement = document.getElementById('reportTitle');
+        const reportTableContainer = document.getElementById('reportTableContainer');
+        const noReportDataMessage = document.getElementById('noReportData');
+
+        // Dummy Data for Reports
+        const dummyReports = {
+            "issues": { // Only keeping issues for this simplified view
+                "2024-07-28": [
+                    { id: "ISS001", type: "Bus Breakdown", reportedBy: "Driver D98766", userType: "driver", route: "Line 10 - Nasr City", description: "Bus engine stopped working near pickup point 2.", status: "Pending", date: "2024-07-28 07:30 AM" },
+                    { id: "ISS002", type: "Traffic Delay", reportedBy: "Worker E12345", userType: "worker", route: "Line 5 - Maadi", description: "Heavy traffic on Corniche El Maadi, bus is 15 mins late.", status: "Closed", date: "2024-07-28 07:45 AM" },
+                    { id: "ISS003", type: "Lost Item", reportedBy: "Worker E12346", userType: "worker", route: "Line 12 - Haram", description: "Worker reported losing a bag on the bus.", status: "Pending", date: "2024-07-28 08:00 AM" }
+                ],
+                "2024-07-27": [
+                    { id: "ISS004", type: "Driver Behavior", reportedBy: "Worker E12347", userType: "worker", route: "Line 10 - Nasr City", description: "Driver was speeding and driving recklessly.", status: "Under Review", date: "2024-07-27 07:10 AM" },
+                    { id: "ISS005", type: "Bus Maintenance", reportedBy: "Driver D98767", userType: "driver", route: "Line 5 - Maadi", description: "Brakes feel soft, needs inspection.", status: "New", date: "2024-07-27 09:00 AM" }
+                ]
+            }
+        };
+
+        function loadReport() {
+            const selectedUserType = userTypeFilterSelect.value;
+            const reportDate = reportDateInput.value;
+
+            reportTableContainer.innerHTML = '';
+            noReportDataMessage.style.display = 'none';
+
+            let data = [];
+            let headers = ["ID", "Type", "Reported By", "User Type", "Route", "Description", "Status", "Date/Time"]; // Added User Type header
+            let title = "";
+
+            // Get all issues for the selected date
+            let issuesForDate = dummyReports.issues[reportDate] || [];
+
+            if (selectedUserType === 'all') {
+                data = issuesForDate;
+                title = `All Issue Reports for ${reportDate}`;
+            } else if (selectedUserType === 'drivers') {
+                data = issuesForDate.filter(issue => issue.userType === 'driver');
+                title = `Driver Issue Reports for ${reportDate}`;
+            } else if (selectedUserType === 'workers') {
+                data = issuesForDate.filter(issue => issue.userType === 'worker');
+                title = `Worker Issue Reports for ${reportDate}`;
+            }
+            
+            reportTitleElement.textContent = title;
+
+            if (data.length > 0) {
+                const table = document.createElement('table');
+                const thead = table.createTHead();
+                const tbody = table.createTBody();
+
+                // Create table headers
+                const headerRow = thead.insertRow();
+                headers.forEach(headerText => {
+                    const th = document.createElement('th');
+                    th.textContent = headerText;
+                    headerRow.appendChild(th);
+                });
+
+                // Populate table body
+                data.forEach(rowData => {
+                    const row = tbody.insertRow();
+                    headers.forEach(headerText => {
+                        const cell = row.insertCell();
+                        // Map header text to data key
+                        let value;
+                        switch (headerText) {
+                            case "ID": value = rowData.id; break;
+                            case "Type": value = rowData.type; break;
+                            case "Reported By": value = rowData.reportedBy; break;
+                            case "User Type": value = rowData.userType; break; // New field
+                            case "Route": value = rowData.route; break;
+                            case "Description": value = rowData.description; break;
+                            case "Status": value = rowData.status; break;
+                            case "Date/Time": value = rowData.date; break;
+                            default: value = ''; break;
+                        }
+                        cell.textContent = value;
+                    });
+                });
+                reportTableContainer.appendChild(table);
+            } else {
+                noReportDataMessage.style.display = 'block';
+            }
+        }
+
+        // Initial load of the report when the page loads
+        loadReport();
+    </script>
+</body>
+</html>

@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - Driver - Eva Transport</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7f6;
+            color: #333;
+            direction: ltr; /* Left-to-Right for English */
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        header {
+            background-color: #009c22;
+            color: white;
+            padding: 15px 20px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 1.8em;
+        }
+
+        nav {
+            background-color: #e9ecef;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            text-align: center;
+        }
+
+        nav ul li {
+            display: inline-block;
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #009c22;
+            font-weight: bold;
+        }
+
+        nav ul li a:hover {
+            color: #009c22;
+        }
+
+        h2 {
+            color: #009c22;
+            border-bottom: 2px solid #e9ecef;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+
+        .card {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .card h3 {
+            margin-top: 0;
+            color: #333;
+        }
+
+        .card p {
+            margin-bottom: 10px;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: #28a745;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+            margin-right: 5px;
+        }
+         .btn:last-child {
+            margin-right: 0;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="tel"],
+        .form-group input[type="email"],
+        .form-group input[type="password"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid transparent;
+            border-radius: 4px;
+        }
+
+        .alert-success {
+            color: #155724;
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+        }
+        .profile-details p {
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        .profile-details strong {
+            display: inline-block;
+            min-width: 180px; /* Adjusted for English labels */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Eva Factory Transport - Drivers</h1>
+    </header>
+
+    <div class="container">
+        <nav>
+            <ul>
+                <li><a href="driver_dashboard.html">Dashboard</a></li>
+                <li><a href="driver_my_route.html">My Route & Passengers</a></li>
+                <li><a href="driver_profile.html">My Profile</a></li>
+                <li><a href="login.html">Logout</a></li>
+            </ul>
+        </nav>
+
+        <h2>My Profile</h2>
+
+        <div id="profile-view">
+            <div class="card profile-details">
+                <h3>My Basic Information</h3>
+                <p><strong>Name:</strong> <span id="view-name">Driver Example Name</span></p>
+                <p><strong>Employee ID:</strong> <span id="view-employee-id">D98765</span></p>
+                <p><strong>Phone Number:</strong> <span id="view-phone">01234567890</span></p>
+                <p><strong>Email:</strong> <span id="view-email">driver@example.com</span></p>
+                
+                <h3>Bus Information</h3>
+                <p><strong>Assigned Bus Line:</strong> <span id="view-bus-line">Line 10 - Nasr City</span></p>
+                <p><strong>Bus Number / Plate:</strong> <span id="view-bus-number">105 - (ABC 1234)</span></p>
+                
+                <button class="btn" onclick="toggleEditMode(true)" style="margin-top: 20px;">Edit My Information</button>
+            </div>
+        </div>
+
+        <div id="profile-edit" style="display:none;">
+            <div class="card">
+                <h3>Edit My Information</h3>
+                <form id="edit-profile-form">
+                    <div class="form-group">
+                        <label for="edit-name">Name:</label>
+                        <input type="text" id="edit-name" value="Driver Example Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-phone">Phone Number:</label>
+                        <input type="tel" id="edit-phone" value="01234567890">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-email">Email:</label>
+                        <input type="email" id="edit-email" value="driver@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-password">New Password (leave blank if no change):</label>
+                        <input type="password" id="edit-password" placeholder="Enter new password">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-confirm-password">Confirm New Password:</label>
+                        <input type="password" id="edit-confirm-password" placeholder="Confirm new password">
+                    </div>
+                    <p style="font-size:0.9em; color: #555;">Note: Bus Line and Bus Number are assigned by administration and cannot be changed here.</p>
+                    <button type="button" class="btn" onclick="saveProfileChanges()">Save Changes</button>
+                    <button type="button" class="btn btn-secondary" onclick="toggleEditMode(false)">Cancel</button>
+                </form>
+            </div>
+        </div>
+        <div id="success-alert" class="alert alert-success" style="display:none;">Your information has been updated successfully!</div>
+
+    </div>
+
+    <script>
+        function toggleEditMode(isEditing) {
+            document.getElementById('profile-view').style.display = isEditing ? 'none' : 'block';
+            document.getElementById('profile-edit').style.display = isEditing ? 'block' : 'none';
+            if (isEditing) {
+                // Load current data into edit fields
+                document.getElementById('edit-name').value = document.getElementById('view-name').textContent;
+                document.getElementById('edit-phone').value = document.getElementById('view-phone').textContent;
+                document.getElementById('edit-email').value = document.getElementById('view-email').textContent;
+                document.getElementById('edit-password').value = ""; 
+                document.getElementById('edit-confirm-password').value = "";
+            }
+        }
+
+        function saveProfileChanges() {
+            // Send data to server
+            // On success, update UI:
+            document.getElementById('view-name').textContent = document.getElementById('edit-name').value;
+            document.getElementById('view-phone').textContent = document.getElementById('edit-phone').value;
+            document.getElementById('view-email').textContent = document.getElementById('edit-email').value;
+            
+            const newPassword = document.getElementById('edit-password').value;
+            const confirmPassword = document.getElementById('edit-confirm-password').value;
+            if (newPassword) {
+                if (newPassword === confirmPassword) {
+                    alert("Password will be updated."); // Placeholder
+                } else {
+                    alert("Passwords do not match!");
+                    return; 
+                }
+            }
+
+            toggleEditMode(false);
+            showSuccessAlert();
+        }
+
+        function showSuccessAlert() {
+            const alertBox = document.getElementById('success-alert');
+            alertBox.style.display = 'block';
+            setTimeout(() => {
+                alertBox.style.display = 'none';
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

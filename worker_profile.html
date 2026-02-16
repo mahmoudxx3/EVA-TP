@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - Eva Transport</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7f6;
+            color: #333;
+            direction: ltr; /* Left-to-Right for English */
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        header {
+            background-color: #009c22;
+            color: white;
+            padding: 15px 20px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 1.8em;
+        }
+
+        nav {
+            background-color: #e9ecef;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            text-align: center;
+        }
+
+        nav ul li {
+            display: inline-block;
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #009c22;
+            font-weight: bold;
+        }
+
+        nav ul li a:hover {
+            color: #009c22;
+        }
+
+        h2 {
+            color: #009c22;
+            border-bottom: 2px solid #e9ecef;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+
+        .card {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .card h3 {
+            margin-top: 0;
+            color: #333;
+        }
+
+        .card p {
+            margin-bottom: 10px;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: #28a745; 
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+            margin-right: 5px; /* For spacing between buttons */
+        }
+         .btn:last-child {
+            margin-right: 0;
+        }
+
+
+        .btn-secondary {
+            background-color: #6c757d;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="tel"],
+        .form-group input[type="email"],
+        .form-group input[type="password"],
+        .form-group select {
+            width: calc(100% - 22px);
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid transparent;
+            border-radius: 4px;
+        }
+
+        .alert-success {
+            color: #155724;
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+        }
+
+        .alert-info {
+            color: #009c22;
+            background-color: #d1ecf1;
+            border-color: #bee5eb;
+        }
+        .profile-details p {
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        .profile-details strong {
+            display: inline-block;
+            min-width: 150px; /* Adjusted for English labels */
+        }
+        .fixed-bus-info {
+            background-color: #e6f3ff;
+            border-left: 5px solid #009c22; /* Standard LTR highlight */
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Eva Factory Transport</h1>
+    </header>
+
+    <div class="container">
+        <nav>
+            <ul>
+                <li><a href="worker_dashboard.html">Dashboard</a></li>
+                <li><a href="worker_find_bus.html">Find a Bus</a></li>
+                <li><a href="worker_my_rides.html">My Booked Rides</a></li>
+                <li><a href="worker_profile.html">My Profile</a></li>
+                <li><a href="login.html">Logout</a></li>
+            </ul>
+        </nav>
+
+        <h2>My Profile</h2>
+
+        <div id="profile-view">
+            <div class="card profile-details">
+                <h3>My Basic Information</h3>
+                <p><strong>Name:</strong> <span id="view-name">Ahmed Mahmoud Ali</span></p>
+                <p><strong>Employee ID:</strong> <span id="view-employee-id">E12345</span></p>
+                <p><strong>Phone Number:</strong> <span id="view-phone">01001234567</span></p>
+                <p><strong>Email:</strong> <span id="view-email">ahmed.ali@example.com</span></p>
+                <p><strong>Residential Area:</strong> <span id="view-address">Nasr City - Cairo</span></p>
+                
+                <h3>Fixed Bus Settings</h3>
+                <div id="fixed-bus-section" class="fixed-bus-info">
+                    <p><strong>Current Fixed Bus:</strong> <span id="view-fixed-bus">Line 10 - Nasr City</span></p>
+                    <p><strong>Preferred Pickup Point:</strong> <span id="view-pickup-point">In front of Awlad Ragab Supermarket, Makram Ebeid St.</span></p>
+                    <button class="btn btn-secondary" onclick="toggleFixedBusSetup(true)">Change/Set Fixed Bus</button>
+                </div>
+                <div id="no-fixed-bus-message" style="display:none;">
+                    <p>No fixed bus has been set for you yet.</p>
+                    <button class="btn" onclick="toggleFixedBusSetup(true)">Set Fixed Bus</button>
+                </div>
+
+                <button class="btn" onclick="toggleEditMode(true)" style="margin-top: 20px;">Edit Information</button>
+            </div>
+        </div>
+
+        <div id="profile-edit" style="display:none;">
+            <div class="card">
+                <h3>Edit My Information</h3>
+                <form id="edit-profile-form">
+                    <div class="form-group">
+                        <label for="edit-name">Name:</label>
+                        <input type="text" id="edit-name" value="Ahmed Mahmoud Ali">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-phone">Phone Number:</label>
+                        <input type="tel" id="edit-phone" value="01001234567">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-email">Email:</label>
+                        <input type="email" id="edit-email" value="ahmed.ali@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-address">Residential Area (to determine nearest pickup point):</label>
+                        <input type="text" id="edit-address" value="Nasr City - Cairo">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-password">New Password (leave blank if no change):</label>
+                        <input type="password" id="edit-password" placeholder="Enter new password">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-confirm-password">Confirm New Password:</label>
+                        <input type="password" id="edit-confirm-password" placeholder="Confirm new password">
+                    </div>
+                    <button type="button" class="btn" onclick="saveProfileChanges()">Save Changes</button>
+                    <button type="button" class="btn btn-secondary" onclick="toggleEditMode(false)">Cancel</button>
+                </form>
+            </div>
+        </div>
+
+        <div id="fixed-bus-setup" style="display:none;">
+            <div class="card">
+                <h3>Set/Change Fixed Bus</h3>
+                <p>Choose the bus line you regularly use and your preferred pickup point.</p>
+                <div class="form-group">
+                    <label for="fixed-bus-line">Select Bus Line:</label>
+                    <select id="fixed-bus-line" name="fixed-bus-line" onchange="updatePickupPoints()">
+                        <option value="">-- Select Line --</option>
+                        <option value="line_10_nasr_city">Line 10 - Nasr City</option>
+                        <option value="line_5_maadi">Line 5 - Maadi</option>
+                        <option value="line_12_haram">Line 12 - Haram</option>
+                        <!-- More lines -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="fixed-pickup-point">Select Pickup Point:</label>
+                    <select id="fixed-pickup-point" name="fixed-pickup-point">
+                        <option value="">-- Select Pickup Point after choosing line --</option>
+                        <!-- Pickup points will appear here based on the selected line -->
+                    </select>
+                </div>
+                <button type="button" class="btn" onclick="saveFixedBus()">Set This Bus</button>
+                <button type="button" class="btn btn-secondary" onclick="toggleFixedBusSetup(false)">Cancel</button>
+                <button type="button" class="btn btn-danger" onclick="removeFixedBus()" id="remove-fixed-bus-btn" style="display:none;">Remove Fixed Bus</button>
+            </div>
+        </div>
+        <div id="success-alert" class="alert alert-success" style="display:none;">Changes saved successfully!</div>
+
+    </div>
+
+    <script>
+        // Dummy data for pickup points per line
+        const pickupPointsData = {
+            "line_10_nasr_city": ["In front of Awlad Ragab Supermarket, Makram Ebeid St.", "Abbas El Akkad St. with Mostafa El Nahas St. Intersection", "Beginning of Tayaran St."],
+            "line_5_maadi": ["El Mahatta Square", "In front of Grand Mall", "Corniche El Maadi - Engineers Club"],
+            "line_12_haram": ["In front of Cairo Mall", "Remaya Square", "Main Arish St."]
+        };
+
+        function toggleEditMode(isEditing) {
+            document.getElementById('profile-view').style.display = isEditing ? 'none' : 'block';
+            document.getElementById('profile-edit').style.display = isEditing ? 'block' : 'none';
+            document.getElementById('fixed-bus-setup').style.display = 'none'; 
+            if (isEditing) {
+                document.getElementById('edit-name').value = document.getElementById('view-name').textContent;
+                document.getElementById('edit-phone').value = document.getElementById('view-phone').textContent;
+                document.getElementById('edit-email').value = document.getElementById('view-email').textContent;
+                document.getElementById('edit-address').value = document.getElementById('view-address').textContent;
+                document.getElementById('edit-password').value = ""; 
+                document.getElementById('edit-confirm-password').value = "";
+            }
+        }
+
+        function saveProfileChanges() {
+            // Send data to server here
+            // On success, update UI:
+            document.getElementById('view-name').textContent = document.getElementById('edit-name').value;
+            document.getElementById('view-phone').textContent = document.getElementById('edit-phone').value;
+            document.getElementById('view-email').textContent = document.getElementById('edit-email').value;
+            document.getElementById('view-address').textContent = document.getElementById('edit-address').value;
+            
+            const newPassword = document.getElementById('edit-password').value;
+            const confirmPassword = document.getElementById('edit-confirm-password').value;
+            if (newPassword) {
+                if (newPassword === confirmPassword) {
+                    alert("Password will be updated."); // Placeholder for actual update logic
+                } else {
+                    alert("Passwords do not match!");
+                    return; 
+                }
+            }
+
+            toggleEditMode(false);
+            showSuccessAlert("Your personal information has been updated successfully!");
+        }
+
+        function toggleFixedBusSetup(isSettingUp) {
+            document.getElementById('profile-view').style.display = isSettingUp ? 'none' : 'block';
+            document.getElementById('profile-edit').style.display = 'none'; 
+            document.getElementById('fixed-bus-setup').style.display = isSettingUp ? 'block' : 'none';
+
+            if (isSettingUp) {
+                const currentFixedBusText = document.getElementById('view-fixed-bus').textContent;
+                if (currentFixedBusText && currentFixedBusText !== "Not Set") {
+                    document.getElementById('remove-fixed-bus-btn').style.display = 'inline-block';
+                } else {
+                    document.getElementById('remove-fixed-bus-btn').style.display = 'none';
+                }
+                const busLineSelect = document.getElementById('fixed-bus-line');
+                busLineSelect.value = ""; // Reset
+                for(let i=0; i < busLineSelect.options.length; i++) {
+                    if(busLineSelect.options[i].text === currentFixedBusText) {
+                        busLineSelect.value = busLineSelect.options[i].value;
+                        updatePickupPoints(document.getElementById('view-pickup-point').textContent); 
+                        break;
+                    }
+                }
+                 if (!busLineSelect.value) updatePickupPoints(); // If no pre-selection, still clear/load points for empty line
+            }
+        }
+        
+        function updatePickupPoints(selectedPickupPoint = null) {
+            const busLineSelect = document.getElementById('fixed-bus-line');
+            const pickupPointSelect = document.getElementById('fixed-pickup-point');
+            const selectedLine = busLineSelect.value;
+
+            pickupPointSelect.innerHTML = '<option value="">-- Select Pickup Point --</option>'; 
+
+            if (selectedLine && pickupPointsData[selectedLine]) {
+                pickupPointsData[selectedLine].forEach(point => {
+                    const option = document.createElement('option');
+                    option.value = point; 
+                    option.textContent = point;
+                    if (selectedPickupPoint && point === selectedPickupPoint) {
+                        option.selected = true;
+                    }
+                    pickupPointSelect.appendChild(option);
+                });
+            }
+        }
+
+        function saveFixedBus() {
+            const busLineSelect = document.getElementById('fixed-bus-line');
+            const selectedBusLineText = busLineSelect.options[busLineSelect.selectedIndex].text;
+            const selectedPickupPoint = document.getElementById('fixed-pickup-point').value;
+
+            if (!busLineSelect.value || !selectedPickupPoint) {
+                alert("Please select a bus line and pickup point.");
+                return;
+            }
+
+            // Send data to server
+            // On success, update UI:
+            document.getElementById('view-fixed-bus').textContent = selectedBusLineText;
+            document.getElementById('view-pickup-point').textContent = selectedPickupPoint;
+            
+            document.getElementById('fixed-bus-section').style.display = 'block';
+            document.getElementById('no-fixed-bus-message').style.display = 'none';
+
+            toggleFixedBusSetup(false);
+            showSuccessAlert("Fixed bus settings updated successfully!");
+        }
+        
+        function removeFixedBus() {
+            if (confirm("Are you sure you want to remove the fixed bus? You will need to book each ride separately.")) {
+                // Send request to server
+                document.getElementById('view-fixed-bus').textContent = "Not Set";
+                document.getElementById('view-pickup-point').textContent = "Not Set";
+                document.getElementById('fixed-bus-section').style.display = 'none';
+                document.getElementById('no-fixed-bus-message').style.display = 'block';
+                toggleFixedBusSetup(false);
+                showSuccessAlert("Fixed bus removed successfully.");
+            }
+        }
+
+        function showSuccessAlert(message) {
+            const alertBox = document.getElementById('success-alert');
+            alertBox.textContent = message;
+            alertBox.style.display = 'block';
+            setTimeout(() => {
+                alertBox.style.display = 'none';
+            }, 3000);
+        }
+
+        // Initial check
+        const initialFixedBus = document.getElementById('view-fixed-bus').textContent;
+        if (initialFixedBus === "Not Set" || !initialFixedBus || initialFixedBus.trim() === "") {
+            document.getElementById('fixed-bus-section').style.display = 'none';
+            document.getElementById('no-fixed-bus-message').style.display = 'block';
+            document.getElementById('view-fixed-bus').textContent = "Not Set";
+            document.getElementById('view-pickup-point').textContent = "Not Set";
+        } else {
+            document.getElementById('fixed-bus-section').style.display = 'block';
+            document.getElementById('no-fixed-bus-message').style.display = 'none';
+        }
+
+    </script>
+</body>
+</html>

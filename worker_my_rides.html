@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Booked Rides - Eva Transport</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7f6;
+            color: #333;
+            direction: ltr; /* Left-to-Right for English */
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        header {
+            background-color: #009c22;
+            color: white;
+            padding: 15px 20px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 1.8em;
+        }
+
+        nav {
+            background-color: #e9ecef;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            text-align: center;
+        }
+
+        nav ul li {
+            display: inline-block;
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #009c22;
+            font-weight: bold;
+        }
+
+        nav ul li a:hover {
+            color: #009c22;
+        }
+
+        h2 {
+            color: #009c22;
+            border-bottom: 2px solid #e9ecef;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+
+        .card {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .card h3 {
+            margin-top: 0;
+            color: #333;
+        }
+
+        .card p {
+            margin-bottom: 10px;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: #009c22; 
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+            margin-right: 5px; /* Space between buttons in LTR */
+        }
+         .btn:last-child {
+            margin-right: 0;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+        }
+        
+        .btn-info {
+            background-color: #17a2b8; /* Cyan */
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="tel"],
+        .form-group input[type="email"],
+        .form-group select {
+            width: calc(100% - 22px);
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid transparent;
+            border-radius: 4px;
+        }
+
+        .alert-success {
+            color: #155724;
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+        }
+
+        .alert-info {
+            color: #0c5460;
+            background-color: #d1ecf1;
+            border-color: #bee5eb;
+        }
+        .ride-actions {
+            margin-top: 10px;
+        }
+        .map-placeholder {
+            width: 100%;
+            height: 600px;
+            background-color: #e0e0e0;
+            border: 1px dashed #aaa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: #555;
+            margin-top: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Eva Factory Transport</h1>
+    </header>
+
+    <div class="container">
+        <nav>
+            <ul>
+                <li><a href="worker_dashboard.html">Dashboard</a></li>
+                <li><a href="worker_find_bus.html">Find a Bus</a></li>
+                <li><a href="worker_my_rides.html">My Booked Rides</a></li>
+                <li><a href="worker_profile.html">My Profile</a></li>
+                <li><a href="login.html">Logout</a></li>
+            </ul>
+        </nav>
+
+        <h2>My Booked Rides</h2>
+
+        <div class="card" id="ride-1">
+            <h3>Tomorrow's Ride - Your Fixed Bus</h3>
+            <p><strong>Date:</strong> July 29, 2024 (default)</p>
+            <p><strong>Bus Line:</strong> Line 10 - Nasr City</p>
+            <p><strong>Departure Time:</strong> 7:00 AM</p>
+            <p><strong>Driver:</strong> Mohamed Ahmed - <a href="tel:01001234567">01001234567</a></p>
+            <p><strong>Pickup Point:</strong> In front of Awlad Ragab Supermarket, Makram Ebeid St.</p>
+            <p><strong>Status:</strong> Confirmed (Fixed Bus)</p>
+            <div class="map-placeholder">
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151.835434509123!2d144.9537353153163!3d-37.81627997975157!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad642af0f11f1b3%3A0x5045675218ceed0!2sYour%20Pickup%20Location!5e0!3m2!1sen!2sau!4v1616161616161!5m2!1sen!2sau" 
+                    width="100%" 
+                    height="600" 
+                    style="border:0;" 
+                    allowfullscreen="" 
+                    loading="lazy">
+                </iframe>
+            </div>
+            <div class="ride-actions">
+                <button class="btn btn-info" onclick="trackBus('ride-1')">Track Bus</button>
+                <button class="btn btn-danger" onclick="confirmCancelRide('ride-1', 'your fixed bus for July 29th')">Cancel Today's Booking</button>
+            </div>
+        </div>
+
+        <div class="card" id="ride-2">
+            <h3>Booked Ride - July 30, 2024</h3>
+            <p><strong>Date:</strong> July 30, 2024</p>
+            <p><strong>Bus Line:</strong> Line 5 - Maadi (Exceptional Booking)</p>
+            <p><strong>Departure Time:</strong> 7:15 AM</p>
+            <p><strong>Driver:</strong> Ali Hassan - <a href="tel:01112223333">01112223333</a></p>
+            <p><strong>Pickup Point:</strong> El Mahatta Square, Maadi</p>
+            <p><strong>Status:</strong> Confirmed</p>
+            <div class="map-placeholder">
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151.835434509123!2d144.9537353153163!3d-37.81627997975157!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad642af0f11f1b3%3A0x5045675218ceed0!2sYour%20Pickup%20Location!5e0!3m2!1sen!2sau!4v1616161616161!5m2!1sen!2sau" 
+                    width="100%" 
+                    height="600" 
+                    style="border:0;" 
+                    allowfullscreen="" 
+                    loading="lazy">
+                </iframe>
+            </div>
+            <div class="ride-actions">
+                <button class="btn btn-info" onclick="trackBus('ride-2')">Track Bus</button>
+                <button class="btn btn-danger" onclick="confirmCancelRide('ride-2', 'Line 5 ride for July 30th')">Cancel Booking</button>
+            </div>
+        </div>
+        
+        <div class="alert alert-info" id="no-rides-message" style="display:none;">
+            You have no booked rides currently. You can <a href="worker_find_bus.html">Find a Bus</a>.
+        </div>
+
+    </div>
+
+    <script>
+        function confirmCancelRide(rideId, rideDescription) {
+            if (confirm(`Are you sure you want to cancel the booking for "${rideDescription}"?`)) {
+                // Request to server to cancel booking
+                alert(`Booking for "${rideDescription}" has been successfully cancelled.`);
+                document.getElementById(rideId).style.display = 'none'; // Hide card from UI
+                checkIfNoRides();
+            }
+        }
+
+        function trackBus(rideId) {
+            alert(`Bus tracking will be displayed for ride ID: ${rideId}. (Tracking function not active in this example)`);
+            const mapPlaceholder = document.getElementById(rideId).querySelector('.map-placeholder');
+            mapPlaceholder.innerHTML = `Attempting to load bus location... (Interactive example)`;
+        }
+
+        function checkIfNoRides() {
+            const rideCards = document.querySelectorAll('.container .card'); // Be more specific if other cards exist
+            let visibleRides = 0;
+            rideCards.forEach(card => {
+                // Check if it's a ride card and visible
+                if (card.id.startsWith('ride-') && card.style.display !== 'none') {
+                    visibleRides++;
+                }
+            });
+            if (visibleRides === 0) {
+                document.getElementById('no-rides-message').style.display = 'block';
+            } else {
+                 document.getElementById('no-rides-message').style.display = 'none';
+            }
+        }
+        
+        // Check on page load
+        checkIfNoRides();
+    </script>
+</body>
+</html>
+

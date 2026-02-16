@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find a Bus - Eva Transport</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7f6;
+            color: #333;
+            direction: ltr; /* Left-to-Right for English */
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        header {
+            background-color: #009c22;
+            color: white;
+            padding: 15px 20px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 1.8em;
+        }
+
+        nav {
+            background-color: #e9ecef;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            text-align: center;
+        }
+
+        nav ul li {
+            display: inline-block;
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #009c22;
+            font-weight: bold;
+        }
+
+        nav ul li a:hover {
+            color: #009c22;
+        }
+
+        h2 {
+            color: #009c22;
+            border-bottom: 2px solid #e9ecef;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+
+        .card {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .card h3 {
+            margin-top: 0;
+            color: #333;
+        }
+
+        .card p {
+            margin-bottom: 10px;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: #28a745;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="date"],
+        .form-group input[type="tel"],
+        .form-group input[type="email"],
+        .form-group select {
+            width: calc(100% - 22px);
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid transparent;
+            border-radius: 4px;
+        }
+
+        .alert-success {
+            color: #155724;
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+        }
+
+        .alert-info {
+            color: #009c22;
+            background-color: #d1ecf1;
+            border-color: #bee5eb;
+        }
+        .bus-list-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        .bus-list-item:last-child {
+            border-bottom: none;
+        }
+        .bus-list-item div { /* Info part */
+            flex-grow: 1;
+        }
+        .bus-list-item .btn { /* Button part */
+            margin-left: auto; /* Pushes button to the right in LTR */
+            margin-right: 0; 
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Eva Factory Transport</h1>
+    </header>
+
+    <div class="container">
+        <nav>
+            <ul>
+                <li><a href="worker_dashboard.html">Dashboard</a></li>
+                <li><a href="worker_find_bus.html">Find a Bus</a></li>
+                <li><a href="worker_my_rides.html">My Booked Rides</a></li>
+                <li><a href="worker_profile.html">My Profile</a></li>
+                <li><a href="login.html">Logout</a></li>
+            </ul>
+        </nav>
+
+        <h2>Search for Available Bus</h2>
+
+        <div class="form-group">
+            <label for="date">Ride Date:</label>
+            <input type="date" id="date" name="date" value="2024-07-28"> <!-- Default to today or a relevant date -->
+        </div>
+
+        <div class="form-group">
+            <label for="area">Select Area (Approximate Pickup Location):</label>
+            <select id="area" name="area">
+                <option value="all">All Areas</option>
+                <option value="nasr_city">Nasr City</option>
+                <option value="maadi">Maadi</option>
+                <option value="haram">Haram</option>
+                <option value="shobra">Shoubra</option>
+                <option value="october">6th of October</option>
+            </select>
+        </div>
+        <button type="button" class="btn" onclick="searchBuses()">Search</button>
+
+        <hr style="margin: 20px 0;">
+
+        <h3>Available Buses <span id="search-criteria" style="font-size: 0.8em; color: #555;"></span></h3>
+        <div id="bus-results">
+            <!-- Search results will appear here -->
+            <div class="card bus-list-item">
+                <div>
+                    <h4>Line 5 - Maadi</h4>
+                    <p>Time: 7:15 AM</p>
+                    <p>Driver: Ali Hassan - <a href="tel:01112223333">01112223333</a></p>
+                    <p>Seats Available: 3</p>
+                    <p>Nearest Pickup Point for You: El Mahatta Square</p>
+                </div>
+                <button class="btn" onclick="bookBus('Line 5 - Maadi')">Book Seat</button>
+            </div>
+            <div class="card bus-list-item">
+                <div>
+                    <h4>Line 12 - Haram</h4>
+                    <p>Time: 6:45 AM</p>
+                    <p>Driver: Sara Kamel - <a href="tel:01223334444">01223334444</a></p>
+                    <p>Seats Available: 1</p>
+                    <p>Nearest Pickup Point for You: In front of Cairo Mall</p>
+                </div>
+                <button class="btn" onclick="bookBus('Line 12 - Haram')">Book Seat</button>
+            </div>
+            <div class="card bus-list-item">
+                 <div>
+                    <h4>Line 10 - Nasr City (Your Fixed Bus)</h4>
+                    <p>Time: 7:00 AM</p>
+                    <p>Driver: Mohamed Ahmed - <a href="tel:01001234567">01001234567</a></p>
+                    <p>Seats Available: 5 (Additional seats may be available)</p>
+                    <p>Nearest Pickup Point for You: In front of Awlad Ragab Supermarket</p>
+                </div>
+                <button class="btn" onclick="bookBus('Line 10 - Nasr City')">Book Seat</button>
+            </div>
+            <div class="alert alert-info" id="no-results" style="display:none;">
+                No available buses match your search criteria.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function searchBuses() {
+            const date = document.getElementById('date').value;
+            const areaSelect = document.getElementById('area');
+            const areaValue = areaSelect.value;
+            const areaText = areaSelect.options[areaSelect.selectedIndex].text;
+            
+            document.getElementById('search-criteria').textContent = `(For ${date} in ${areaText})`;
+            
+            const resultsContainer = document.getElementById('bus-results');
+            const items = resultsContainer.getElementsByClassName('bus-list-item');
+            let found = false;
+            for (let i = 0; i < items.length; i++) {
+                // Simple filter based on text content (can be improved)
+                if (areaValue === "all" || items[i].textContent.includes(areaText)) { // Ensure areaText is what you expect to find
+                    items[i].style.display = 'flex';
+                    found = true;
+                } else {
+                    items[i].style.display = 'none';
+                }
+            }
+
+            if (!found && areaValue !== "all") {
+                document.getElementById('no-results').style.display = 'block';
+            } else {
+                document.getElementById('no-results').style.display = 'none';
+            }
+        }
+
+        function bookBus(busLine) {
+            if (confirm(`Are you sure you want to book a seat on "${busLine}"?`)) {
+                alert(`Your seat on "${busLine}" has been successfully booked. You will be redirected to My Rides.`);
+                // Theoretically, a request is sent to the server here
+                window.location.href = 'worker_my_rides.html'; // Default redirect
+            }
+        }
+        // searchBuses(); // Optional: Trigger initial search display on load
+    </script>
+
+</body>
+</html>

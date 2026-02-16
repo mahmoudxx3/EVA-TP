@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Shipments - Eva Logistics</title>
+    <style>
+        :root {
+            --primary-color: #0056b3; /* Consistent Blue */
+            --primary-color-hover: #004494;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7f6;
+            color: #333;
+            direction: ltr;
+        }
+
+       .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 20px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 25px 20px;
+            text-align: center;
+            margin-bottom: 20px;
+            border-radius: 8px 8px 0 0;
+        }
+
+        header h1 { margin: 0; font-size: 1.8em; }
+
+        nav {
+            background-color: #e9ecef;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            text-align: center;
+        }
+
+        nav ul li { display: inline-block; margin: 0 15px; }
+
+        nav ul li a {
+            text-decoration: none;
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        h2 {
+            color: var(--primary-color);
+            border-bottom: 2px solid #e9ecef;
+            padding-bottom: 10px;
+        }
+
+        /* Shipment Card Styling */
+        .shipment-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            background-color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .shipment-info h3 { margin: 0 0 10px 0; color: var(--primary-color); }
+        .shipment-info p { margin: 5px 0; font-size: 0.95em; }
+
+        .status-badge {
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.85em;
+            text-transform: uppercase;
+        }
+
+        .status-in-transit { background-color: #d1ecf1; color: #0c5460; }
+        .status-delivered { background-color: #d4edda; color: #155724; }
+        .status-pending { background-color: #fff3cd; color: #856404; }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-view { background-color: var(--primary-color); color: white; }
+        .btn-view:hover { background-color: var(--primary-color-hover); }
+
+        .filters {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        select {
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        @media (max-width: 768px) {
+            .shipment-card { flex-direction: column; align-items: flex-start; }
+            .shipment-actions { margin-top: 15px; width: 100%; }
+            .btn { width: 100%; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Eva Truck Drivers</h1>
+    </header>
+
+    <div class="container">
+        <nav>
+            <ul>
+                <li><a href="Truck_Driver_Dashboard.html">Dashboard</a></li>
+                <li><a href="Truck_Driver_Shipments.html">My Shipments</a></li>
+                <li><a href="Truck_Driver_Profile.html">My Profile</a></li>
+            </ul>
+        </nav>
+
+        <div class="filters">
+            <label for="status-filter">Filter by Status:</label>
+            <select id="status-filter">
+                <option value="all">All Shipments</option>
+                <option value="transit">In Transit</option>
+                <option value="delivered">Delivered</option>
+                <option value="pending">Pending</option>
+            </select>
+        </div>
+
+        <h2>Active Shipments</h2>
+        
+        <div class="shipment-card">
+            <div class="shipment-info">
+                <h3>Order #SH-9021</h3>
+                <p><strong>Cargo:</strong> 5 Tons - Cosmetics & Personal Care</p>
+                <p><strong>Route:</strong> 6th of October Warehouse → Alexandria Port</p>
+                <p><strong>ETA:</strong> Today, 4:30 PM</p>
+                <span class="status-badge status-in-transit">In Transit</span>
+            </div>
+            <div class="shipment-actions">
+                <a href="#" class="btn btn-view" onclick="alert('Opening GPS Navigation...')">View Route</a>
+            </div>
+        </div>
+
+        <h2>Past Shipments</h2>
+
+        <div class="shipment-card">
+            <div class="shipment-info">
+                <h3>Order #SH-8850</h3>
+                <p><strong>Cargo:</strong> 3 Tons - Raw Materials</p>
+                <p><strong>Route:</strong> Suez Port → Eva Factory B3</p>
+                <p><strong>Date:</strong> 25/12/2024</p>
+                <span class="status-badge status-delivered">Delivered</span>
+            </div>
+            <div class="shipment-actions">
+                <a href="#" class="btn btn-view" style="background-color: #6c757d;">View Summary</a>
+            </div>
+        </div>
+
+        <div class="shipment-card">
+            <div class="shipment-info">
+                <h3>Order #SH-8720</h3>
+                <p><strong>Cargo:</strong> 4.5 Tons - Finished Goods</p>
+                <p><strong>Route:</strong> Eva Factory → Mansoura Distribution Center</p>
+                <p><strong>Date:</strong> 20/12/2024</p>
+                <span class="status-badge status-delivered">Delivered</span>
+            </div>
+            <div class="shipment-actions">
+                <a href="#" class="btn btn-view" style="background-color: #6c757d;">View Summary</a>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Placeholder for filter logic
+        document.getElementById('status-filter').addEventListener('change', function() {
+            alert('Filtering logic would show/hide cards based on: ' + this.value);
+        });
+    </script>
+
+</body>
+</html>

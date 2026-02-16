@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - Eva Logistics</title>
+    <style>
+        :root {
+            --primary-color: #0056b3;
+            --primary-color-hover: #004494;
+            --bg-color: #f4f7f6;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0; background-color: var(--bg-color);
+        }
+
+        .container { width: 90%; max-width: 1100px; margin: 20px auto; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 25px 20px;
+            text-align: center;
+            margin-bottom: 20px;
+            border-radius: 8px 8px 0 0;
+        }
+
+        header h1 { margin: 0; font-size: 1.8em; }
+        
+        nav { background: #eee; padding: 10px; border-radius: 8px; margin-bottom: 25px; text-align: center; }
+        nav a { text-decoration: none; color: var(--primary-color); font-weight: bold; margin: 0 15px; }
+
+        .profile-grid { display: grid; grid-template-columns: 300px 1fr; gap: 30px; }
+        
+        .sidebar { background: #f9f9f9; padding: 20px; border-radius: 10px; text-align: center; border: 1px solid #ddd; }
+        .profile-pic { width: 150px; height: 150px; background: #ddd; border-radius: 50%; margin: 0 auto 15px; border: 5px solid var(--primary-color); display: flex; align-items: center; justify-content: center; font-size: 60px; overflow: hidden; }
+        .profile-pic img { width: 100%; height: 100%; object-fit: cover; }
+
+        .form-section { background: white; }
+        .info-card { margin-bottom: 25px; padding: 15px; border: 1px solid #eee; border-radius: 8px; }
+        .info-card h3 { margin-top: 0; color: var(--primary-color); border-bottom: 2px solid #eee; padding-bottom: 10px; }
+        
+        .input-group { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px; }
+        .field { display: flex; flex-direction: column; }
+        label { font-size: 0.85em; color: #666; margin-bottom: 5px; font-weight: bold; }
+        input { padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 1em; }
+        input:disabled { background: #f0f0f0; cursor: not-allowed; }
+
+        .btn { padding: 12px 25px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        .btn-save { background: var(--primary-color); color: white; width: 100%; margin-top: 10px; }
+        .btn-edit { background: #28a745; color: white; margin-bottom: 10px; }
+        .btn-outline { background: transparent; border: 1px solid var(--primary-color); color: var(--primary-color); width: 100%; }
+        
+        .status-msg { padding: 10px; margin-top: 10px; border-radius: 5px; display: none; text-align: center; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Eva Truck Drivers</h1>
+</header>
+
+<div class="container">
+    <nav>
+        <a href="Truck_Driver_Dashboard.html">Dashboard</a>
+        <a href="Truck_Driver_Shipments.html">My Shipments</a>
+        <a href="Truck_Driver_Profile.html">My Profile</a>
+        
+    </nav>
+
+    <div class="profile-grid">
+        <div class="sidebar">
+            <div class="profile-pic" id="pic-container">👤</div>
+            <input type="file" id="fileInput" style="display:none" accept="image/*">
+            <button class="btn btn-outline" onclick="document.getElementById('fileInput').click()">Update Photo</button>
+            <h2 id="display-name">Ahmed Hassan</h2>
+            <p style="color: #666;">Truck ID: <span id="display-truck">أ ب ج - 1234</span></p>
+            <div style="color: #ffc107; font-size: 1.2em;">★★★★★</div>
+        </div>
+
+        <div class="form-section">
+            <button class="btn btn-edit" id="editToggle" onclick="toggleEdit()">Edit Profile</button>
+            
+            <div id="statusBox" class="status-msg"></div>
+
+            <div class="info-card">
+                <h3>Personal Details</h3>
+                <div class="input-group">
+                    <div class="field">
+                        <label>Full Name</label>
+                        <input type="text" id="fullName" value="Ahmed Mohamed Hassan" disabled>
+                    </div>
+                    <div class="field">
+                        <label>Email Address</label>
+                        <input type="email" id="email" value="ahmed.h@evafactory.com" disabled>
+                    </div>
+                    <div class="field">
+                        <label>Phone Number</label>
+                        <input type="text" id="phone" value="+20 100 123 4567" disabled>
+                    </div>
+                    <div class="field">
+                        <label>Employee ID</label>
+                        <input type="text" value="EVA-TR-5502" disabled>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-card">
+                <h3>Vehicle Details</h3>
+                <div class="input-group">
+                    <div class="field">
+                        <label>Truck Model</label>
+                        <input type="text" id="truckModel" value="Mercedes-Benz Actros" disabled>
+                    </div>
+                    <div class="field">
+                        <label>License Plate</label>
+                        <input type="text" id="plateNumber" value="أ ب ج - 1234" disabled>
+                    </div>
+                </div>
+            </div>
+            <a href="login.html" class="btn btn-save" >Logout</a>
+            <button class="btn btn-save" id="saveBtn" style="display:none;" onclick="saveData()">Save Changes</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 1. Load data from LocalStorage on Startup
+    window.onload = function() {
+        const savedData = JSON.parse(localStorage.getItem('truck_driver_profile'));
+        if (savedData) {
+            document.getElementById('fullName').value = savedData.name;
+            document.getElementById('email').value = savedData.email;
+            document.getElementById('phone').value = savedData.phone;
+            document.getElementById('truckModel').value = savedData.truck;
+            document.getElementById('plateNumber').value = savedData.plate;
+            document.getElementById('display-name').innerText = savedData.name;
+            document.getElementById('display-truck').innerText = savedData.plate;
+        }
+    };
+
+    // 2. Toggle Edit Mode
+    function toggleEdit() {
+        const inputs = document.querySelectorAll('input:not([type="file"])');
+        const isEditing = inputs[0].disabled;
+        
+        inputs.forEach(input => {
+            if(!input.value.includes("EVA-TR")) input.disabled = !isEditing;
+        });
+
+        document.getElementById('saveBtn').style.display = isEditing ? 'block' : 'none';
+        document.getElementById('editToggle').innerText = isEditing ? 'Cancel Edit' : 'Edit Profile';
+        document.getElementById('editToggle').style.background = isEditing ? '#dc3545' : '#28a745';
+    }
+
+    // 3. Save Data to LocalStorage
+    function saveData() {
+        const profileData = {
+            name: document.getElementById('fullName').value,
+            email: document.getElementById('email').value,
+            phone: document.getElementById('phone').value,
+            truck: document.getElementById('truckModel').value,
+            plate: document.getElementById('plateNumber').value
+        };
+
+        localStorage.setItem('truck_driver_profile', JSON.stringify(profileData));
+        
+        // Update display
+        document.getElementById('display-name').innerText = profileData.name;
+        document.getElementById('display-truck').innerText = profileData.plate;
+        
+        showStatus("Changes saved successfully!", "#d4edda", "#155724");
+        toggleEdit();
+    }
+
+    // 4. Handle Image Upload (Preview)
+    document.getElementById('fileInput').onchange = function(evt) {
+        const [file] = this.files;
+        if (file) {
+            const url = URL.createObjectURL(file);
+            document.getElementById('pic-container').innerHTML = `<img src="${url}">`;
+            showStatus("Photo updated locally!", "#d1ecf1", "#0c5460");
+        }
+    };
+
+    function showStatus(msg, bg, color) {
+        const box = document.getElementById('statusBox');
+        box.innerText = msg;
+        box.style.display = 'block';
+        box.style.backgroundColor = bg;
+        box.style.color = color;
+        setTimeout(() => box.style.display = 'none', 3000);
+    }
+</script>
+
+</body>
+</html>

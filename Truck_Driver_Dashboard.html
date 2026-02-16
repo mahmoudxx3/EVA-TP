@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Truck Driver Dashboard - Eva Logistics</title>
+
+    <style>
+        :root {
+            --primary-color: #0056b3;
+            --primary-color-hover: #004494;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            background-color: #f4f7f6;
+        }
+
+        /* ✅ Header بالحجم الكبير */
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 25px 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 1.8em;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 20px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+         nav {
+            background-color: #e9ecef;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            text-align: center;
+        }
+
+        nav ul li { display: inline-block; margin: 0 15px; }
+
+        nav ul li a {
+            text-decoration: none;
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+        h2 {
+            color: var(--primary-color);
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        .card {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 15px;
+            transition: 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+
+        .btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        .btn-sm {
+            padding: 5px 10px;
+            font-size: 0.8em;
+        }
+
+        .btn-success { background-color: #28a745; }
+        .btn-warning { background-color: #ffc107; color: black; }
+        .btn-danger { background-color: #dc3545; }
+
+        .alert {
+            background-color: #d1ecf1;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .badge {
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            color: white;
+            background-color: #007bff;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #e9ecef;
+        }
+
+        /* Modal */
+
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.4);
+        }
+
+        .modal-content {
+            background: white;
+            width: 320px;
+            margin: 10% auto;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        input {
+            width: 90%;
+            padding: 8px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>Eva Truck Drivers</h1>
+</header>
+
+<div class="container">
+
+    <nav>
+        <ul>
+            <li><a href="Truck_Driver_Dashboard.html">Dashboard</a></li>
+            <li><a href="Truck_Driver_Shipments.html">My Shipments</a></li>
+            <li><a href="Truck_Driver_Profile.html">My Profile</a></li>
+        </ul>
+    </nav>
+
+    <h2>Welcome</h2>
+
+    
+
+    <div class="card">
+        <h3>Current Shipment Status</h3>
+
+        <div id="no-active-shipment" style="display:none;">
+            No active shipment.
+        </div>
+
+        <div id="active-shipment">
+            <p><strong>Order ID:</strong> #SH-9021</p>
+            <p><strong>Route:</strong> Warehouse A ➔ Alexandria Port</p>
+            <p><strong>Status:</strong> <span class="badge" id="shipmentStatus">In Transit</span></p>
+
+            <button class="btn btn-warning" onclick="openStatusModal()">Update Checkpoint</button>
+            <button class="btn btn-success" onclick="completeDelivery()">Confirm Delivery</button>
+        </div>
+    </div>
+
+    <div class="card">
+        <h3>Incoming Transport Requests</h3>
+
+        <table>
+            <tr>
+                <th>Order ID</th>
+                <th>Destination</th>
+                <th>Action</th>
+            </tr>
+
+            <tr>
+                <td>#SH-9025</td>
+                <td>Cairo Festival City</td>
+                <td><button class="btn btn-sm accept-btn">Accept</button></td>
+            </tr>
+
+            <tr>
+                <td>#SH-9028</td>
+                <td>Assiut</td>
+                <td><button class="btn btn-sm accept-btn">Accept</button></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="card">
+        <h3>Quick Reports</h3>
+        <button class="btn btn-danger" onclick="reportIssue()">Report Issue</button>
+    </div>
+
+</div>
+
+<!-- Modal -->
+
+<div id="statusModal" class="modal">
+    <div class="modal-content">
+        <h3>Update Checkpoint</h3>
+        <input type="text" id="statusInput" placeholder="Enter new status">
+        <br>
+        <button class="btn btn-success" onclick="saveStatus()">Save</button>
+        <button class="btn btn-danger" onclick="closeModal()">Cancel</button>
+    </div>
+</div>
+
+<script>
+
+    function openStatusModal() {
+        document.getElementById('statusModal').style.display = 'block';
+    }
+
+    function closeModal() {
+        document.getElementById('statusModal').style.display = 'none';
+    }
+
+    function saveStatus() {
+        const value = document.getElementById('statusInput').value;
+
+        if (value) {
+            document.getElementById('shipmentStatus').innerText = value;
+            alert("Checkpoint updated");
+            closeModal();
+        }
+    }
+
+    function completeDelivery() {
+        if (confirm("Mark shipment as delivered?")) {
+            document.getElementById('active-shipment').style.display = 'none';
+            document.getElementById('no-active-shipment').style.display = 'block';
+        }
+    }
+
+    function reportIssue() {
+        const issue = prompt("Describe the issue:");
+        if (issue) {
+            alert("Issue reported");
+        }
+    }
+
+    document.querySelectorAll('.accept-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            btn.innerText = "Accepted";
+            btn.disabled = true;
+        });
+    });
+
+</script>
+
+</body>
+</html>

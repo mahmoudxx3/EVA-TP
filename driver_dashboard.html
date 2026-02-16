@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Driver Dashboard - Eva Transport</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7f6;
+            color: #333;
+            direction: ltr; /* Left-to-Right for English */
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        header {
+            background-color: #009c22;
+            color: white;
+            padding: 15px 20px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 1.8em;
+        }
+
+        nav {
+            background-color: #e9ecef;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            text-align: center;
+        }
+
+        nav ul li {
+            display: inline-block;
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #009c22;
+            font-weight: bold;
+        }
+
+        nav ul li a:hover {
+            color: #009c22;
+        }
+
+        h2 {
+            color: #009c22;
+            border-bottom: 2px solid #e9ecef;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+
+        .card {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .card h3 {
+            margin-top: 0;
+            color: #333;
+        }
+
+        .card p {
+            margin-bottom: 10px;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: #28a745;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+        }
+        .btn-info {
+            background-color: #009c22;
+        }
+        .btn-warning {
+            background-color: #ffc107;
+            color: #212529;
+        }
+        .btn-danger {
+            background-color: #dc3545;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid transparent;
+            border-radius: 4px;
+        }
+
+        .alert-success {
+            color: #155724;
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+        }
+
+        .alert-info {
+            color: #009c22;
+            background-color: #d1ecf1;
+            border-color: #bee5eb;
+        }
+        .alert-warning {
+            color: #856404;
+            background-color: #fff3cd;
+            border-color: #ffeeba;
+        }
+        .status-active {
+            color: green;
+            font-weight: bold;
+        }
+        .status-inactive {
+            color: red;
+            font-weight: bold;
+        }
+        .map-placeholder {
+            width: 100%;
+            height: 300px;
+            background-color: #e0e0e0;
+            border: 1px dashed #aaa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: #555;
+            margin-top: 15px;
+            border-radius: 5px;
+        }
+        .trip-actions button {
+            margin-right: 10px; /* Space between buttons in LTR */
+            margin-bottom: 5px;
+        }
+         .trip-actions button:last-child {
+            margin-right: 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Eva Factory Transport - Drivers</h1>
+    </header>
+
+    <div class="container">
+        <nav>
+            <ul>
+                <li><a href="driver_dashboard.html">Dashboard</a></li>
+                <li><a href="driver_my_route.html">My Route & Passengers</a></li>
+                <li><a href="driver_profile.html">My Profile</a></li>
+                <li><a href="login.html">Logout</a></li>
+            </ul>
+        </nav>
+
+        <h2>Welcome, [Driver Name]!</h2>
+        <p><strong>Your Assigned Route:</strong> Line 10 - Nasr City</p>
+        <p><strong>Bus Number:</strong> 105 - (ABC 1234)</p>
+
+        <div class="alert alert-warning" id="next-trip-alert">
+            <strong>Next Trip:</strong> Tomorrow, 7:00 AM. Current Passengers: <strong>12</strong>.
+            <a href="driver_my_route.html" class="btn btn-sm btn-info" style="padding: 5px 10px; font-size:0.9em; margin-left:10px;">View Trip Details</a>
+        </div>
+        
+        <div class="card">
+            <h3>Manage Bus Status</h3>
+            <p>Current Bus Tracking Status: <strong id="gps-status" class="status-active">Active</strong></p>
+            <button class="btn btn-secondary" onclick="toggleGPSStatus()">Toggle Tracking Status (Active/Inactive)</button>
+            <p style="font-size:0.9em; color:#555; margin-top:5px;">(Must be active during trips)</p>
+        </div>
+
+        <div class="card">
+            <h3>Start/End Current Trip</h3>
+            <div id="trip-not-started">
+                <p>No trip currently in progress.</p>
+                <button class="btn" onclick="startTrip()">Start Next Trip</button>
+            </div>
+            <div id="trip-in-progress" style="display:none;">
+                <p>Trip in Progress: <strong>Line 10 - Nasr City</strong></p>
+                <p>Elapsed Time: <span id="elapsed-time">00:00:00</span></p>
+                <div class="trip-actions">
+                    <button class="btn btn-warning" onclick="sendNotificationToWorkers()">Send Notification to Passengers</button>
+                    <button class="btn btn-info" onclick="viewCurrentPassengers()">View Current Passengers</button>
+                    <button class="btn btn-danger" onclick="endTrip()">End Trip</button>
+                </div>
+                <div class="map-placeholder">
+                    [Map displaying your current location and expected passenger locations]
+                </div>
+            </div>
+             <div id="trip-ended" class="alert alert-success" style="display:none;">
+                Trip ended successfully.
+            </div>
+        </div>
+        
+        <div class="card">
+            <h3>Quick Reports</h3>
+            <p>Is there an issue with the bus or route?</p>
+            <button class="btn btn-danger" onclick="reportIssue()">Report Issue</button>
+        </div>
+
+    </div>
+    <script>
+        let gpsActive = true;
+        let tripStarted = false;
+        let timerInterval;
+        let secondsElapsed = 0;
+
+        function toggleGPSStatus() {
+            gpsActive = !gpsActive;
+            const statusEl = document.getElementById('gps-status');
+            if (gpsActive) {
+                statusEl.textContent = "Active";
+                statusEl.className = "status-active";
+                alert("Bus tracking activated.");
+            } else {
+                statusEl.textContent = "Inactive";
+                statusEl.className = "status-inactive";
+                alert("Bus tracking deactivated. Please activate it before starting the trip.");
+            }
+        }
+
+        function startTrip() {
+            if (!gpsActive) {
+                alert("Please activate bus tracking before starting the trip.");
+                return;
+            }
+            tripStarted = true;
+            document.getElementById('trip-not-started').style.display = 'none';
+            document.getElementById('trip-in-progress').style.display = 'block';
+            document.getElementById('trip-ended').style.display = 'none';
+            document.getElementById('next-trip-alert').style.display = 'none'; 
+            
+            secondsElapsed = 0;
+            updateTimerDisplay();
+            timerInterval = setInterval(() => {
+                secondsElapsed++;
+                updateTimerDisplay();
+            }, 1000);
+            alert("Trip started: Line 10 - Nasr City. Your location is now being tracked.");
+        }
+
+        function updateTimerDisplay() {
+            const hours = Math.floor(secondsElapsed / 3600);
+            const minutes = Math.floor((secondsElapsed % 3600) / 60);
+            const seconds = secondsElapsed % 60;
+            document.getElementById('elapsed-time').textContent = 
+                `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
+
+        function endTrip() {
+            if (!tripStarted) return;
+            clearInterval(timerInterval);
+            tripStarted = false;
+            document.getElementById('trip-in-progress').style.display = 'none';
+            document.getElementById('trip-not-started').style.display = 'block';
+            document.getElementById('trip-ended').style.display = 'block';
+            document.getElementById('next-trip-alert').style.display = 'block'; 
+            
+            setTimeout(() => {
+                 document.getElementById('trip-ended').style.display = 'none';
+            }, 5000);
+            alert("Trip ended. Thank you.");
+        }
+        
+        function sendNotificationToWorkers() {
+            const message = prompt("Enter notification message for passengers (e.g., I am near the first pickup point):");
+            if (message) {
+                alert(`Notification sent: "${message}" to registered passengers for this trip.`);
+                // Send notification via backend system
+            }
+        }
+
+        function viewCurrentPassengers() {
+            window.location.href = 'driver_my_route.html?trip=current';
+        }
+
+        function reportIssue() {
+            const issue = prompt("Please describe the issue (e.g., tire flat, heavy traffic jam):");
+            if (issue) {
+                alert(`Report sent: "${issue}". You will be contacted shortly if needed.`);
+                // Send report to administration
+            }
+        }
+    </script>
+</body>
+</html>
